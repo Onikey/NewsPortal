@@ -1,0 +1,7 @@
+#fakeSubmit {
+    pointer-events: all !important;
+}
+
+.hidden {
+    display: none !important;
+}

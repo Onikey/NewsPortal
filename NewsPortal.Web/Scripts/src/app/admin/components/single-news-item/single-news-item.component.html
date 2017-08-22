@@ -1,0 +1,27 @@
+<div class="ui grid">
+    <div class="row">
+        <div class="sixteen wide column">
+            <form class="ui form" (ngSubmit)="submit()" #newsItemForm="ngForm">
+                <div class="field">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" required [(ngModel)]="model.title" name="title">
+                </div>
+                <div class="field">
+                    <label for="content">Content</label>
+                    <textarea id="content" required [(ngModel)]="model.content" name="content"></textarea>
+                </div>
+
+                <div class="field">
+                    <label for="authorId">Author</label>
+                    <select class="ui search dropdown" id="authorId" required [(ngModel)]="model.authorId" name="authorId">
+                      <option *ngFor="let author of authors | async" [value]="author.id">{{author.name}}</option>
+                    </select>
+                </div>
+                <button class="ui left floated button" (click)="back()">Back</button>
+                <button class="ui left floated button" type="submit" [disabled]="fasle">{{isNewItem ? 'Create' : 'Update'}} News</button>
+
+                <button *ngIf="!isNewItem" class="ui button right floated" (click)="delete(model.id)">Delete News</button>
+            </form>
+        </div>
+    </div>
+</div>

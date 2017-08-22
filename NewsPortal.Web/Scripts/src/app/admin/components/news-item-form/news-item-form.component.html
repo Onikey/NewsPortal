@@ -1,0 +1,40 @@
+<div class="ui grid">
+    <div class="row">
+        <div class="sixteen wide column">
+            <form class="ui form" [formGroup]="newsItemForm" (ngSubmit)="submit(newsItemForm.value)">
+                <div class="field">
+                    <label for="title">Title</label>
+                    <input id="title" type="text" placeholder="News title" name="title" [formControl]="newsItemForm.controls['title']" required>
+                </div>
+
+                <div class="field">
+                    <label for="content">Content</label>
+                    <app-tinymce name="content" [elementId]="'content'" [formControl]="newsItemForm.controls['content']" required></app-tinymce>
+                </div>
+
+                <div class="field">
+                    <label for="author">Author</label>
+                    <select class="ui search dropdown" id="authorId" name="author" [formControl]="newsItemForm.controls['author']" required>
+                      <option *ngFor="let author of authors | async" [value]="author.id">{{author.name}}</option>
+                    </select>
+                </div>
+
+                <button class="ui left floated button" type="button" (click)="back()">Back</button>
+
+                <button class="ui left floated button" type="submit" [ngClass]="{'hidden': !newsItemForm.valid}">{{isNewItem ? 'Create' : 'Update'}} News</button>
+                <button class="ui left floated button disabled" type="button" id="fakeSubmit" [ngClass]="{'hidden': newsItemForm.valid}">{{isNewItem ? 'Create' : 'Update'}} News</button>
+                <div class="ui popup transition hidden">
+                    <div class="ui bulleted list">
+                        <div class="item" *ngIf="newsItemForm.controls['title'].hasError('required')">Title is not valid</div>
+                        <div class="item" *ngIf="newsItemForm.controls['content'].hasError('required')">Content is not valid</div>
+                        <div class="item" *ngIf="newsItemForm.controls['author'].hasError('required')">Author is not find</div>
+                    </div>
+                </div>
+
+                <button class="ui button right floated" type="button" *ngIf="!isNewItem" (click)="delete(newsItem.id)">Delete News</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<app-delete-modal [options]="deleteModalOptions" *ngIf="isDeleteNewsItem"></app-delete-modal>

@@ -1,0 +1,48 @@
+<div class="ui header">
+    News
+</div>
+
+<table class="ui fixed single line table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Content</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of newsItems">
+            <td>{{item.title}}</td>
+            <td>{{item.author}}</td>
+            <td [innerHTML]="item.content"></td>
+            <td class="right aligned">
+                <a class="ui icon button" [routerLink]="['/admin/news-item/edit/' + item.id]">
+                    <i class="edit icon"></i>
+                </a>
+                <div class="ui icon button" (click)="delete(item.id)">
+                    <i class="delete icon"></i>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot class="full-width">
+        <tr>
+            <th colspan="4">
+                <a class="ui right floated small primary labeled icon button" [routerLink]="['/admin/news-item/add']">
+                    <i class="newspaper icon"></i> Add news
+                </a>
+            </th>
+        </tr>
+    </tfoot>
+</table>
+
+<app-delete-modal [options]="deleteModalOptions" *ngIf="isDeleteNewsItem"></app-delete-modal>
+
+<div class="ui active page dimmer" *ngIf="loading">
+    <div class="content">
+        <div class="center">
+            <div class="ui text loader">Deleting...</div>
+        </div>
+    </div>
+</div>
